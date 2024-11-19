@@ -1,0 +1,1022 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GigaNest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(#00a6fb, #0582ca, #006494, #003554, #051923);
+        color: #fff;
+        overflow-x: hidden;
+    }
+video#background-video {
+    position: fixed; /* Fixed position to cover the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    object-fit: cover; /* Cover the entire area */
+    z-index: -1; /* Behind all other content */
+    opacity: 0.7; /* Optional: slightly transparent */
+}
+
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+
+    .active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+h1 {
+text-align: center;
+}
+
+    h1 {
+        font-size: 60px;
+color: #fff;
+font-weight: 600;
+transition: 0.5s;
+    }
+h1:hover{
+-webkit-text-stroke: 2px #fff;
+color: transparent
+}
+h4 {
+text-align: center;
+}
+
+    h4 {
+        font-size: 40px;
+color: #fff;
+font-weight: 600;
+transition: 0.3s;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 10px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin: auto;
+        position: relative;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    img {
+        width: 80%;
+        border-radius: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    img:hover {
+        transform: scale(1.05);
+    }
+
+    .button {
+    background: #fb8500;
+    color: #011627;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.button:hover {
+    background: #ffb703;
+    transform: translateY(-2px);
+}
+
+.remove-button {
+    background: #ff4d4d; /* Red background for remove button */
+    color: #fff; /* White text */
+}
+
+
+    .available-space {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+
+    .contact-form {
+        margin-top: 40px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    .vertical-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-width: 500px;
+    }
+
+    .vertical-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .vertical-form input, 
+    .vertical-form textarea {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px 0;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+    }
+
+    @media (max-width: 768px) {
+        .grid {
+            grid-template-columns: 1fr; /* Stack cards on smaller screens */
+        }
+    }
+
+    /* New Media Query for 1080x1920 mobile devices */
+    @media (max-width: 1080px) and (max-height: 1920px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr); /* 2 columns for specific mobile size */
+        }
+    }
+/* Progress bar container remains the same */
+.progress-bar-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background for visibility */
+    padding: 10px;
+    border-radius: 10px;
+    display: none; /* Initially hidden */
+    opacity: 0;
+    transition: opacity 0.5s ease; /* Smooth fade-in/out transition */
+    color: #fff; /* Make text color white */
+    text-align: center;
+    font-size: 14px;
+    z-index: 10; /* Ensure it is on top */
+}
+
+
+/* Progress bar styling remains the same */
+progress {
+    appearance: none;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 200px;
+    height: 20px;
+    transition: width 0.4s ease-in-out; /* Animation for smooth progress change */
+}
+
+progress::-webkit-progress-bar {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #fb8500; /* Color of the filled portion */
+}
+
+progress::-moz-progress-bar {
+    background-color: #fb8500;
+}
+
+/* Remaining space label */
+#remaining-space {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #fff; /* White text color */
+}
+.search-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    margin-bottom: 20px; /* Adjust space below the search bar */
+}
+
+.search-container input {
+    transition: border 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent; /* You can also change to your desired color */
+    padding: 10px; /* Keep padding consistent */
+    border-radius: 20px; /* Adjust for more rounded corners */
+    width: 100%; /* Full width of the container */
+    max-width: 500px; /* Limit width */
+    box-sizing: border-box; /* Includes padding in width/height calculations */
+}
+
+.search-container input:focus {
+    border: 2px solid #fb8500; /* Change to desired focus color */
+    transform: scale(1.05);
+    outline: none;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+#page1 .grid {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    flex-direction: row; /* Ensure items are in a row */
+    gap: 10px; /* Optional: Add a small gap between cards */
+    margin-top: 20px; /* Optional: Add some margin on top */
+}
+
+#page1 .card {
+    width: 200px; /* Keep the cards small */
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 0; /* Remove any margin around the cards */
+}
+
+#page1 img {
+    width: 70%; /* Adjust image size for smaller cards */
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+
+/* Optional: If you want to make cards even closer, you can remove padding */
+#page1 .card {
+    padding: 10px; /* Adjust padding if necessary */
+}
+
+</style>
+<body>
+ <video id="background-video" autoplay muted loop>
+        <source src="https://embed-ssl.wistia.com/deliveries/97a03c87c808baf7bd65cc8127a5b8a39bdc6012.bin?disposition=attachment&filename=background+video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div id="video-overlay"></div> <!-- Overlay to darken the video -->
+    <div class="container active" id="page1">
+        <h1>GigaNest</h1>
+        <div class="grid">
+            <div class="card" id="drive-500">
+                <img src="https://i.ibb.co/p2Cx1vt/500gb.png" alt="500GB Hard Drive">
+                <h2>500GB Hard Drive</h2>
+                <button class="button drive-button" onclick="selectDrive('500')">Select Drive</button>
+            </div>
+            <div class="card" id="drive-1tb">
+                <img src="https://i.ibb.co/zmvSQNP/wd-blue-hdd-1tb-550x550.png" alt="1TB Hard Drive">
+                <h2>1TB Hard Drive</h2>
+                <button class="button drive-button" onclick="selectDrive('1tb')">Select Drive</button>
+            </div>
+        </div>
+<div style="text-align: center; margin-top: 20px;">
+    <a href="https://www.tiktok.com/@hamdygamestore" target="_blank" style="color: #fff; font-size: 30px; text-decoration: none;">
+        <i class="fab fa-tiktok"></i> Follow Us on TikTok
+    </a>
+</div>
+</div>
+<!-- Progress Bar Floating Container -->
+<div class="progress-bar-container">
+    <label for="space-progress" style="display:block; margin-bottom: 5px; color: #fff;">Storage Used:</label>
+    <progress id="space-progress" value="0" max="100"></progress>
+    <div id="remaining-space">Remaining space: 0 GB</div> <!-- New remaining space text -->
+</div>
+
+  <div class="container" id="page2" style="display: none;">
+        <h4>Select Games to Fill Your Hard Drive</h4>
+<div class="search-container">
+    <input type="text" id="search-bar" placeholder="Search for games..." onkeyup="filterGames()">
+</div>
+
+<div id="suggestions" style="text-align: center; margin-top: 10px;"></div>
+
+    <div class="grid" id="game-selection"></div>
+    <div class="available-space" id="available-space">Available Space: 0GB</div>
+    <div class="added-games" id="added-games">
+        <h2>Added Games:</h2>
+        <ul id="game-list"></ul>
+    </div>
+        <div class="contact-form">
+    <h2>Contact Us</h2>
+    <form class="vertical-form" id="contactForm" action="https://submit-form.com/NKlPTs9iB" method="POST" onsubmit="handleSubmit(event)">
+        <label for="Name">Name</label>
+        <input id="Name" name="Name" type="text" required />
+        <label for="WhatsApp-Number">WhatsApp Number</label>
+        <input id="WhatsApp-Number" name="WhatsApp Number" type="text" required />
+        <label for="selected-drive">Selected Hard Drive</label>
+        <input id="selected-drive" name="selected-drive" type="text" readonly value="Your Selected Drive" />
+        <label for="added-games">Selected Games</label>
+        <textarea id="added-games-textarea" name="added-games" readonly>Your Selected Games</textarea>
+        <button class="button" type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    function handleSubmit(event) {
+    // Prevent the default form submission
+    event.preventDefault();
+
+    // Get the WhatsApp number, selected drive, and added games
+    const whatsappNumber = document.getElementById('WhatsApp-Number').value;
+    const selectedDrive = document.getElementById('selected-drive').value;
+    const addedGames = document.getElementById('added-games-textarea').value;
+
+    // Check if at least one game has been added
+    if (addedGames.trim() === '' || gamesAdded.length === 0) {
+        alert("Please select at least one game before submitting.");
+        return; // Stop the form submission
+    }
+
+    // Construct the WhatsApp message
+    const message = `Selected Drive: ${selectedDrive}%0AAdded Games: ${addedGames}`;
+
+    // Construct the WhatsApp link
+    const whatsappLink = `https://wa.me/${201063903369}?text=${encodeURIComponent(message)}`;
+
+    // Open the WhatsApp link in a new tab
+    window.open(whatsappLink, '_blank');
+
+    // Now submit the form
+    event.target.submit(); // Submits the form data to the endpoint
+}
+
+</script>
+
+
+
+        <footer>
+            <p>&copy; 2024 Hamdy Store. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let totalSpace = 0;
+let usedSpace = 0;
+let selectedDrive = '';
+const gamesAdded = [];
+
+const predefinedGames = [
+    {
+        name: "Alan Wake 2",
+        size: 79.8,
+        image: "https://cdn1.epicgames.com/offer/c4763f236d08423eb47b4c3008779c84/EGS_AlanWake2_RemedyEntertainment_S1_2560x1440-ec44404c0b41bc457cb94cd72cf85872?resize=1&w=480&h=270&quality=medium"
+    },
+{
+        name: "A Plague Tale: Requiem",
+        size: 47.2,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1182900/header.jpg?t=1728401377"
+    },
+
+   {
+        name: "Apex Legends",
+        size: 75,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1172470/header.jpg?t=1728406989"
+    },
+{
+        name: "Atomic Heart",
+        size: 80,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/668580/header.jpg?t=1729871108"
+    },
+{
+        name: "Assassins Creed Origins",
+        size: 55,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/582160/header.jpg?t=1724875586"
+    },
+{
+        name: "Assassins Creed Revelations",
+        size: 6.6,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/201870/header.jpg?t=1721775976"
+    },
+{
+        name: "Assassins Creed Rogue",
+        size: 11.6,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/311560/header.jpg?t=1724875718"
+    },
+{
+        name: "Assassins Creed Syndicate",
+        size: 41.3,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/368500/header.jpg?t=1724875669"
+    },
+{
+        name: "Assassins Creed Valhalla",
+        size: 62.3,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2208920/header.jpg?t=1728429840"
+    },
+{
+        name: "Batman: Arkham City",
+        size: 16.9,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/57400/header.jpg"
+    },
+{
+        name: "Batman: Arkham Knight",
+        size: 52.1,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/208650/header.jpg?t=1725967372"
+    },
+ {
+        name: "Battlefield 1",
+        size: 81,
+        image: "https://clan.akamai.steamstatic.com/images/38021266/446b609a572e8dae643c433ab3d7c485741b5f51.png"
+    },
+{
+        name: "Battlefield 2042",
+        size: 91.6,
+        image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1517290/capsule_616x353.jpg"
+    },
+{
+        name: "Battlefield 4",
+        size: 68.7,
+        image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1238860/header.jpg"
+    },
+{
+        name: "Battlefield 5",
+        size: 90,
+        image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1238810/capsule_616x353.jpg"
+    },
+{
+        name: "Blur",
+        size: 7.1,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/42640/header.jpg?t=1715995737"
+    },
+{
+        name: "Call of Duty 4: Modern Warfare",
+        size: 6.4,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/7940/header.jpg"
+    },
+{
+        name: "Call of Duty Modern Warfare 2",
+        size: 5.7,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/10180/header.jpg"
+    },
+{
+        name: "Call of Duty Modern Warfare 3",
+        size: 17.4,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/42680/header.jpg"
+    },
+{
+        name: "Call of Duty: Black Ops",
+        size: 7.9,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/42700/header.jpg"
+    },
+
+    {
+        name: "Call of Duty: Black Ops II",
+        size: 19,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/202970/header.jpg"
+    },
+{
+        name: "Call of Duty: Black Ops III",
+        size: 57.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/311210/header.jpg"
+    },
+{
+        name: "Chivalry 2",
+        size: 26.6,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1824220/header.jpg?t=1728678028"
+    },
+ {
+        name: "Child of Light",
+        size: 2.4,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/256290/header.jpg?t=1721775897"
+    },
+{
+        name: "Control",
+        size: 33.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/870780/header.jpg"
+    },
+    
+    {
+        name: "Counter-Strike 2",
+        size: 41.4,
+        image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/730/header.jpg"
+    },
+ {
+        name: "Crysis Remastered",
+        size: 19.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1715130/header.jpg?t=1728407020"
+    },
+{
+        name: "Cyberpunk 2077",
+        size: 87.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg"
+    },
+
+{
+        name: "Days Gone",
+        size: 59.8,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1259420/header.jpg?t=1728001306"
+    },
+{
+        name: "Dead by Daylight",
+        size: 43.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1728687922"
+    },
+{
+        name: "Dead Island 2",
+        size: 46,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/934700/header.jpg?t=1729904993"
+    },
+{
+        name: "DEATHLOOP",
+        size: 31,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1252330/header.jpg"
+    },
+    
+    {
+        name: "DOOM Eternal",
+        size: 40.9,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/782330/header.jpg"
+    },
+{
+        name: "Dying Light 2: Stay Human",
+        size: 111.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/534380/header.jpg"
+    },
+
+{
+        name: "Elden Ring",
+        size: 50.2,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg?t=1728659733"
+    },
+ {
+        name: "Evil West",
+        size: 33.3,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1065310/header.jpg?t=1728400387"
+    },
+{
+        name: "Far Cry 6",
+        size: 93.8,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2369390/header.jpg"
+    },
+{
+        name: "FC 24",
+        size: 50.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2195250/header.jpg?t=1727714579"
+    },
+    {
+        name: "FIFA 23",
+        size: 47.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1811260/header.jpg?t=1728407914"
+    },
+{
+        name: "FIFA 22",
+        size: 44.1,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1506830/header.jpg?t=1727808580"
+    },
+    {
+        name: "FIFA 19",
+        size: 34.8,
+        image: "https://media.contentapi.ea.com/content/dam/ea/easports/fifa/fifa-19-home/fifa19_refresh/franchise-hero-tertiary-fifa19-home-update-key-art-xs.jpg"
+    },
+{
+        name: "Forza Horizon 5",
+        size: 97.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1551360/header.jpg?t=1728715458"
+    },
+{
+        name: "Ghost of Tsushima",
+        size: 67,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2215430/header.jpg?t=1729955404"
+    },
+
+{
+        name: "God of War (2018)",
+        size: 63.6,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1593500/header.jpg?t=1728701450"
+    },
+
+{
+        name: "Grand Theft Auto: Vice City – The Definitive Edition",
+        size: 9.3,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1546990/header.jpg?t=1728560602"
+    },
+    {
+        name: "Grand Theft Auto V",
+        size: 114.2,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/271590/header.jpg?t=1728674825"
+    },
+{
+        name: "Hellish Quart",
+        size: 9.8,
+        image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1000360/header.jpg"
+    },
+ {
+        name: "Hitman 3",
+        size: 25.7,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2183750/header.jpg?t=1724874990"
+    },
+{
+        name: "Hogwarts Legacy",
+        size: 71.7,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/990080/header.jpg?t=1728703693"
+    },
+{
+        name: "Horizon Zero Dawn",
+        size: 56.3,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1151640/header.jpg?t=1728112091"
+    },
+{
+        name: "Little Nightmares",
+        size: 9.1,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/424840/header.jpg?t=1726863180"
+    },
+{
+        name: "Lords of the Fallen",
+        size: 33.7,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1501750/header.jpg?t=1728679237"
+    },
+{
+        name: "Lies of P",
+        size: 40,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1627720/header.jpg"
+    },
+{
+        name: "Marvel’s Avengers",
+        size: 65.4,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/997070/header.jpg?t=1724875468"
+    },
+{
+        name: "Marvel’s Guardians of the Galaxy",
+        size: 76,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1088850/header.jpg?t=1729540881"
+    },
+{
+        name: "Marvel’s Spider-Man",
+        size: 66,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1817070/header.jpg?t=1729879988"
+    },
+{
+        name: "Max Payne 3",
+        size: 28.7,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/204100/header.jpg?t=1728560602"
+    },
+{
+        name: "Mirrors Edge Catalyst",
+        size: 23.1,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1233570/header.jpg?t=1724875408"
+    },
+ {
+        name: "Need for Speed Rivals",
+        size: 9.4,
+        image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1262600/header.jpg"
+    },
+    {
+        name: "Need for Speed: Most Wanted",
+        size: 6.4,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1262560/header.jpg?t=1724875395"
+    },
+{
+        name: "Need for Speed: The Run",
+        size: 15,
+        image: "https://gepig.com/game_cover_460w/1429.jpg"
+    },
+    
+    {
+        name: "Need For Speed: Hot Pursuit",
+        size: 7.2,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/47870/header.jpg?t=1727818133"
+    },
+{
+        name: "Outlast",
+        size: 5.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/238320/header.jpg?t=1728659556"
+    },
+{
+        name: "PES 2021",
+        size: 38.7,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1259970/header.jpg?t=1724875395"
+    },
+    
+     {
+        name: "PES 2017",
+        size: 16.5,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/456610/header.jpg"
+    },
+  {
+        name: "Red Dead Redemption",
+        size: 9.73,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2668510/header.jpg"
+    },
+{
+        name: "Red Dead Redemption 2",
+        size: 117.3,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1174180/header.jpg?t=1728560602"
+    },
+{
+        name: "Resident Evil 4 Remake",
+        size: 59.7,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2050650/header.jpg?t=1728472503"
+    },
+{
+        name: "Resident Evil: Village",
+        size: 28.2,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1196590/header.jpg?t=1728486926"
+    },
+{
+        name: "Rocket League",
+        size: 26.6,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/252950/header.jpg?t=1728704591"
+    },
+{
+        name: "Sekiro: Shadows Die Twice",
+        size: 26.2,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/814380/header.jpg?t=1724875493"
+    },
+{
+        name: "Stray",
+        size: 6.7,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1332010/header.jpg?t=1724875380"
+    },
+{
+        name: "Stronghold Crusader",
+        size: 1.9,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/40970/header.jpg?t=1726283248"
+    },
+    {
+        name: "The Finals",
+        size: 27.4,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2073850/header.jpg"
+    },
+{
+        name: "The Last of Us: Part I",
+        size: 80,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1888930/header.jpg?t=1730027405"
+    },
+{
+        name: "The Witcher 3: Wild Hunt",
+        size: 44.7,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/292030/header.jpg"
+    },
+    {
+        name: "Tom Clancys Rainbow Six Siege",
+        size: 56.8,
+        image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/359550/header.jpg"
+    },
+    {
+        name: "UNCHARTED: Legacy of Thieves Collection",
+        size: 125,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1659420/header.jpg?t=1729898612"
+    },
+   
+    {
+        name: "Watch Dogs: Legion",
+        size: 54.9,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2239550/header.jpg"
+    },
+   
+    {
+        name: "WWE 2K22",
+        size: 48.6,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1255630/header.jpg?t=1724875408"
+    }
+    ];
+
+function displayGames() {
+    const gameSelection = document.getElementById('game-selection');
+    gameSelection.innerHTML = ''; // Clear previous games
+
+    predefinedGames.forEach(game => {
+        const isPaid = ["Battlefield 1", "Battlefield 2042", "Battlefield 4", "Battlefield 5", "Chivalry 2", "Dead by Daylight", "FC 24", "FIFA 22", "Grand Theft Auto V", "Tom Clancys Rainbow Six Siege"].includes(game.name);
+        
+        // Update online games list to include the new ones
+        const isOnline = [
+            "Battlefield 2042", "Apex Legends", "Battlefield 1", "Battlefield 4", "Battlefield 5", 
+            "Chivalry 2", "Counter-Strike 2", "Dead by Daylight", "FC 24", "FIFA 22", "Grand Theft Auto V", 
+            "Rocket League", "The Finals", "Tom Clancys Rainbow Six Siege"
+        ].includes(game.name);
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <img src="${game.image}" alt="${game.name} - Image">
+            <h3>${game.name} 
+                ${isPaid ? '<i class="fas fa-dollar-sign" style="color: #fb8500;" title="Paid Game"></i>' : ''} 
+                ${isOnline ? '<i class="fa-solid fa-earth" style="color: #fb8500;" title="Online Game"></i>' : ''} 
+            </h3>
+            <p>Size: ${game.size}GB</p>
+            <button class="button" onclick="addGame('${game.name}', ${game.size}, this)">Add Game</button>
+        `;
+        gameSelection.appendChild(card);
+    });
+}
+
+
+
+
+
+
+
+
+// Other existing functions remain unchanged
+
+
+
+        function selectDrive(drive) {
+    if (drive === '500') {
+        totalSpace = 465;  // Actual usable space for a 500GB hard drive
+        selectedDrive = '500GB Hard Drive';
+    } else if (drive === '1tb') {
+        totalSpace = 931;  // Actual usable space for a 1TB hard drive
+        selectedDrive = '1TB Hard Drive';
+    }
+    document.getElementById('available-space').innerText = `Available Space: ${totalSpace}GB`;
+    transitionToPage('page1', 'page2');
+}
+
+
+       let progressBarVisible = false; // Flag to control progress bar visibility
+let progressBarTimeout = null; // Timeout variable for delaying hiding the progress bar
+
+function updateProgressBar() {
+    const progressBarContainer = document.querySelector('.progress-bar-container');
+    const progressBar = document.getElementById('space-progress');
+    const remainingSpaceLabel = document.getElementById('remaining-space');
+
+    const percentageUsed = (usedSpace / totalSpace) * 100;
+    const remainingSpace = totalSpace - usedSpace;
+
+    progressBar.value = percentageUsed;
+    remainingSpaceLabel.textContent = `Remaining space: ${remainingSpace.toFixed(2)} GB`;
+
+    // Show the progress bar if it's not already visible
+    if (!progressBarVisible) {
+        progressBarContainer.style.display = 'block';
+        progressBarContainer.style.opacity = '1';
+        progressBarVisible = true; // Set flag to true
+    }
+
+    // Clear any existing timeout
+    clearTimeout(progressBarTimeout);
+
+    // Hide the progress bar after 2 seconds of inactivity
+    progressBarTimeout = setTimeout(() => {
+        progressBarContainer.style.opacity = '0'; // Fade out
+        setTimeout(() => {
+            progressBarContainer.style.display = 'none'; // Hide after fade-out
+            progressBarVisible = false; // Reset visibility flag
+        }, 500); // Wait for fade-out to complete
+    }, 2000); // Adjust the timeout duration as necessary
+}
+
+
+
+
+function addGame(name, size, button) {
+    const availableSpace = totalSpace - usedSpace;
+
+    // Check if the button is already showing "Remove Game"
+    if (button.innerText === 'Remove Game') {
+        // Ask for confirmation to remove the game
+        const confirmRemove = confirm(`Do you want to remove ${name} (${size}GB)?`);
+        if (confirmRemove) {
+            removeGame(name, size, button);  // Pass the button for proper state handling
+        }
+    } else {
+        // Check if there's enough space to add the game
+        if (usedSpace + size <= totalSpace) {
+            gamesAdded.push({ name, size });
+            usedSpace += size;
+            updateGameList();
+            updateAvailableSpace();
+            updateProgressBar();  // Update the progress bar
+            button.innerText = 'Remove Game';  // Change button text to 'Remove Game'
+            button.classList.add('remove-button');  // Add the red button class
+        } else {
+            alert(`Not enough space! Available space: ${availableSpace.toFixed(2)}GB`);
+        }
+    }
+}
+
+function removeGame(name, size, button) {
+    // Remove the game from the gamesAdded array
+    const index = gamesAdded.findIndex(game => game.name === name);
+    if (index !== -1) {
+        gamesAdded.splice(index, 1);  // Remove the game from the array
+        usedSpace -= size;  // Update used space
+        updateGameList();  // Update the displayed list of added games
+        updateAvailableSpace();  // Update available space
+        updateProgressBar();  // Update the progress bar
+        button.innerText = 'Add Game';  // Change button text back to 'Add Game'
+        button.classList.remove('remove-button'); // Remove the red button class
+        button.disabled = false; // Enable the button again
+    }
+}
+
+
+
+
+function filterGames() {
+    const searchInput = document.getElementById('search-bar').value.toLowerCase();
+    const gameSelection = document.getElementById('game-selection');
+    const cards = gameSelection.getElementsByClassName('card');
+
+    for (let i = 0; i < cards.length; i++) {
+        const gameName = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+        if (gameName.includes(searchInput)) {
+            cards[i].style.display = ''; // Show the card
+        } else {
+            cards[i].style.display = 'none'; // Hide the card
+        }
+    }
+}
+
+
+
+
+
+        function updateAvailableSpace() {
+    const availableSpace = totalSpace - usedSpace;
+    document.getElementById('available-space').innerText = `Available Space: ${availableSpace.toFixed(2)}GB`;
+}
+
+
+        function updateGameList() {
+        const gameList = document.getElementById('game-list');
+        const addedGamesTextarea = document.getElementById('added-games-textarea');
+        
+        // Clear the list in the UI and the textarea
+        gameList.innerHTML = '';
+        let gamesText = '';
+        let totalSpaceUsed = 0; // Initialize total space used
+
+        // Loop through gamesAdded array to update the UI and textarea
+        gamesAdded.forEach(game => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${game.name} - ${game.size}GB`;
+            gameList.appendChild(listItem);
+            
+            // Add each game to the textarea with a newline for each
+            gamesText += `${game.name} - ${game.size}GB\n`;
+            totalSpaceUsed += game.size; // Add the game size to total
+        });
+
+        // Append the total space used to the end of the textarea content
+        gamesText += `\nTotal Space Used: ${totalSpaceUsed}GB`;
+
+        // Set the textarea value to the formatted list of games plus the total
+        addedGamesTextarea.value = gamesText.trim();
+    }
+
+        function transitionToPage(fromPage, toPage) {
+            document.getElementById(fromPage).style.display = 'none';
+            document.getElementById(toPage).style.display = 'block';
+            setTimeout(() => {
+                document.getElementById(toPage).classList.add('active');
+            }, 0);
+            if (fromPage === 'page1') {
+                document.getElementById('selected-drive').value = selectedDrive; // Update drive selection in the form
+            }
+        }
+
+        function finalizeSelection() {
+            alert('Game selection finalized!');
+        }
+
+        // Display the games when the page loads
+        window.onload = displayGames;
+function transitionToPage(fromPage, toPage) {
+    document.getElementById(fromPage).style.display = 'none';
+    document.getElementById(toPage).style.display = 'block';
+    setTimeout(() => {
+        document.getElementById(toPage).classList.add('active');
+    }, 0);
+    
+    if (fromPage === 'page1') {
+        document.getElementById('selected-drive').value = selectedDrive; // Update drive selection in the form
+        document.getElementById('background-video').style.display = 'none'; // Hide the video when navigating to the library
+    }
+}
+
+    </script>
+</body>
+</html>
