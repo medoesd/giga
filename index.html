@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -168,14 +167,11 @@ transition: 0.3s;
             grid-template-columns: 1fr; /* Stack cards on smaller screens */
         }
     }
-
-    /* New Media Query for 1080x1920 mobile devices */
     @media (max-width: 1080px) and (max-height: 1920px) {
         .grid {
             grid-template-columns: repeat(2, 1fr); /* 2 columns for specific mobile size */
         }
     }
-/* Progress bar container remains the same */
 .progress-bar-container {
     position: fixed;
     bottom: 20px;
@@ -192,9 +188,6 @@ transition: 0.3s;
     font-size: 14px;
     z-index: 10; /* Ensure it is on top */
 }
-
-
-/* Progress bar styling remains the same */
 progress {
     appearance: none;
     border-radius: 5px;
@@ -217,7 +210,6 @@ progress::-moz-progress-bar {
     background-color: #fb8500;
 }
 
-/* Remaining space label */
 #remaining-space {
     margin-top: 5px;
     font-size: 12px;
@@ -272,9 +264,6 @@ progress::-moz-progress-bar {
     border-radius: 10px;
     transition: transform 0.3s ease;
 }
-
-
-/* Optional: If you want to make cards even closer, you can remove padding */
 #page1 .card {
     padding: 10px; /* Adjust padding if necessary */
 }
@@ -344,37 +333,21 @@ progress::-moz-progress-bar {
 
 <script>
     function handleSubmit(event) {
-    // Prevent the default form submission
     event.preventDefault();
-
-    // Get the WhatsApp number, selected drive, and added games
     const whatsappNumber = document.getElementById('WhatsApp-Number').value;
     const selectedDrive = document.getElementById('selected-drive').value;
     const addedGames = document.getElementById('added-games-textarea').value;
-
-    // Check if at least one game has been added
     if (addedGames.trim() === '' || gamesAdded.length === 0) {
         alert("Please select at least one game before submitting.");
         return; // Stop the form submission
     }
-
-    // Construct the WhatsApp message
     const message = `Selected Drive: ${selectedDrive}%0AAdded Games: ${addedGames}`;
-
-    // Construct the WhatsApp link
     const whatsappLink = `https://wa.me/${201063903369}?text=${encodeURIComponent(message)}`;
-
-    // Open the WhatsApp link in a new tab
     window.open(whatsappLink, '_blank');
-
-    // Now submit the form
     event.target.submit(); // Submits the form data to the endpoint
 }
 
 </script>
-
-
-
         <footer>
             <p>&copy; 2024 Hamdy Store. All rights reserved.</p>
         </footer>
@@ -829,18 +802,6 @@ function displayGames() {
         gameSelection.appendChild(card);
     });
 }
-
-
-
-
-
-
-
-
-// Other existing functions remain unchanged
-
-
-
         function selectDrive(drive) {
     if (drive === '500') {
         totalSpace = 465;  // Actual usable space for a 500GB hard drive
@@ -867,18 +828,12 @@ function updateProgressBar() {
 
     progressBar.value = percentageUsed;
     remainingSpaceLabel.textContent = `Remaining space: ${remainingSpace.toFixed(2)} GB`;
-
-    // Show the progress bar if it's not already visible
     if (!progressBarVisible) {
         progressBarContainer.style.display = 'block';
         progressBarContainer.style.opacity = '1';
         progressBarVisible = true; // Set flag to true
     }
-
-    // Clear any existing timeout
     clearTimeout(progressBarTimeout);
-
-    // Hide the progress bar after 2 seconds of inactivity
     progressBarTimeout = setTimeout(() => {
         progressBarContainer.style.opacity = '0'; // Fade out
         setTimeout(() => {
@@ -887,22 +842,14 @@ function updateProgressBar() {
         }, 500); // Wait for fade-out to complete
     }, 2000); // Adjust the timeout duration as necessary
 }
-
-
-
-
 function addGame(name, size, button) {
     const availableSpace = totalSpace - usedSpace;
-
-    // Check if the button is already showing "Remove Game"
     if (button.innerText === 'Remove Game') {
-        // Ask for confirmation to remove the game
         const confirmRemove = confirm(`Do you want to remove ${name} (${size}GB)?`);
         if (confirmRemove) {
             removeGame(name, size, button);  // Pass the button for proper state handling
         }
     } else {
-        // Check if there's enough space to add the game
         if (usedSpace + size <= totalSpace) {
             gamesAdded.push({ name, size });
             usedSpace += size;
@@ -918,7 +865,6 @@ function addGame(name, size, button) {
 }
 
 function removeGame(name, size, button) {
-    // Remove the game from the gamesAdded array
     const index = gamesAdded.findIndex(game => game.name === name);
     if (index !== -1) {
         gamesAdded.splice(index, 1);  // Remove the game from the array
@@ -963,28 +909,18 @@ function filterGames() {
         function updateGameList() {
         const gameList = document.getElementById('game-list');
         const addedGamesTextarea = document.getElementById('added-games-textarea');
-        
-        // Clear the list in the UI and the textarea
         gameList.innerHTML = '';
         let gamesText = '';
         let totalSpaceUsed = 0; // Initialize total space used
-
-        // Loop through gamesAdded array to update the UI and textarea
         gamesAdded.forEach(game => {
             const listItem = document.createElement('li');
             listItem.textContent = `${game.name} - ${game.size}GB`;
             gameList.appendChild(listItem);
-            
-            // Add each game to the textarea with a newline for each
-            gamesText += `${game.name} - ${game.size}GB\n`;
+           gamesText += `${game.name} - ${game.size}GB\n`;
             totalSpaceUsed += game.size; // Add the game size to total
         });
-
-        // Append the total space used to the end of the textarea content
         gamesText += `\nTotal Space Used: ${totalSpaceUsed}GB`;
-
-        // Set the textarea value to the formatted list of games plus the total
-        addedGamesTextarea.value = gamesText.trim();
+       addedGamesTextarea.value = gamesText.trim();
     }
 
         function transitionToPage(fromPage, toPage) {
@@ -1001,8 +937,6 @@ function filterGames() {
         function finalizeSelection() {
             alert('Game selection finalized!');
         }
-
-        // Display the games when the page loads
         window.onload = displayGames;
 function transitionToPage(fromPage, toPage) {
     document.getElementById(fromPage).style.display = 'none';
