@@ -619,6 +619,11 @@ const predefinedGames = [
         size: 56.3,
         image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1151640/header.jpg?t=1728112091"
     },
+    {
+        name: "Hunt: Showdown 1896",
+        size: 80,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/594650/header.jpg?t=1736768293"
+    },
 {
         name: "Little Nightmares",
         size: 9.1,
@@ -795,12 +800,12 @@ function displayGames() {
     gameSelection.innerHTML = ''; // Clear previous games
 
     predefinedGames.forEach(game => {
-        const isPaid = ["Battlefield 1", "Battlefield 2042", "Battlefield 4", "Battlefield 5", "Chivalry 2", "Dead by Daylight", "FC 24", "FIFA 22", "Grand Theft Auto V", "Tom Clancys Rainbow Six Siege"].includes(game.name);
+        const isPaid = ["Battlefield 1", "Battlefield 2042", "Battlefield 4", "Battlefield 5", "Chivalry 2", "Dead by Daylight", "FC 24", "FIFA 22", "Hunt: Showdown 1896", "Grand Theft Auto V", "Tom Clancys Rainbow Six Siege"].includes(game.name);
         
         // Update online games list to include the new ones
         const isOnline = [
             "Battlefield 2042", "Apex Legends", "Battlefield 1", "Battlefield 4", "Battlefield 5", 
-            "Chivalry 2", "Counter-Strike 2", "Dead by Daylight", "FC 24", "FIFA 22", "Grand Theft Auto V", 
+            "Chivalry 2", "Counter-Strike 2", "Dead by Daylight", "FC 24", "FIFA 22", "Hunt: Showdown 1896", "Grand Theft Auto V", 
             "Rocket League", "The Finals", "Tom Clancys Rainbow Six Siege"
         ].includes(game.name);
 
